@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Item | Smart Campus Lost & Found{% endblock %}
+
+{% block content %}
+
+<section class="form-section">
+    <div class="form-card">
+        <span class="eyebrow">Update your report</span>
+        <h1>Edit Item</h1>
+        <p class="hero-text">Change any details below, then save. Leave the image field empty to keep the current photo.</p>
+
+        <form action="{{ url_for('edit', item_id=item.id) }}" method="POST" enctype="multipart/form-data">
+
+            <div class="field">
+                <label for="item_name">Item name</label>
+                <input type="text" id="item_name" name="item_name" value="{{ item.item_name }}" required>
+            </div>
+
+            <div class="field">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" required>{{ item.description }}</textarea>
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" value="{{ item.location }}" required>
+                </div>
+
+                <div class="field">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" value="{{ item.date }}" required>
+                </div>
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="report_type">Lost or Found?</label>
+                    <select id="report_type" name="report_type" required>
+                        <option value="lost" {% if item.status == 'lost' %}selected{% endif %}>Lost</option>
+                        <option value="found" {% if item.status == 'found' %}selected{% endif %}>Found</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="contact">Contact information</label>
+                    <input type="text" id="contact" name="contact" value="{{ item.contact }}" required>
+                </div>
+            </div>
+
+            {% if item.image %}
+                <div class="field">
+                    <label>Current image</label>
+                    <img class="current-image-preview"
+                         src="{{ url_for('static', filename='uploads/' + item.image) }}"
+                         alt="{{ item.item_name }}">
+                </div>
+            {% endif %}
+
+            <div class="field">
+                <label for="image">Replace image (optional)</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-submit">Save Changes</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

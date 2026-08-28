@@ -1,0 +1,56 @@
+<!--
+    base.html
+    ---------
+    This is a "layout" template. It holds the parts that are the same on
+    every page: the <head>, the navigation bar, and the flash-message box.
+
+    Other pages (index.html, report.html, browse.html) "extend" this file
+    and only fill in the main "content" block with their own content.
+    This avoids copy-pasting the navbar into every single page.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart Campus Lost & Found{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a href="{{ url_for('home') }}" class="brand">
+                <span class="brand-pin">📍</span> Smart Campus <span class="brand-accent">Lost & Found</span>
+            </a>
+            <nav class="nav-links">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('report') }}">Report Item</a>
+                <a href="{{ url_for('browse') }}">Browse Items</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Flash messages: short confirmation text set in app.py with flash() -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-box">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <p>Smart Campus Lost &amp; Found &middot; College Project &middot; Stage 1</p>
+    </footer>
+
+</body>
+</html>

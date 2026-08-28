@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Report Item | Smart Campus Lost & Found{% endblock %}
+
+{% block content %}
+
+<section class="form-section">
+    <div class="form-card">
+        <span class="eyebrow">Fill in the details</span>
+        <h1>Report an Item</h1>
+        <p class="hero-text">
+            Give as much detail as you can &mdash; it makes matching lost items with found ones much easier.
+        </p>
+
+        <!--
+            enctype="multipart/form-data" is required whenever a form
+            includes a file upload (our image field below).
+        -->
+        <form action="{{ url_for('report') }}" method="POST" enctype="multipart/form-data">
+
+            <div class="field">
+                <label for="item_name">Item name</label>
+                <input type="text" id="item_name" name="item_name" placeholder="e.g. Blue water bottle" required>
+            </div>
+
+            <div class="field">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" placeholder="Color, brand, any unique marks..." required></textarea>
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" placeholder="e.g. Library, 2nd floor" required>
+                </div>
+
+                <div class="field">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="report_type">Lost or Found?</label>
+                    <select id="report_type" name="report_type" required>
+                        <option value="" disabled {% if not report_type %}selected{% endif %}>Select one</option>
+                        <option value="lost" {% if report_type == 'lost' %}selected{% endif %}>Lost</option>
+                        <option value="found" {% if report_type == 'found' %}selected{% endif %}>Found</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="contact">Contact information</label>
+                    <input type="text" id="contact" name="contact" placeholder="Email or phone number" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="image">Image (optional)</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-submit">Submit Report</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

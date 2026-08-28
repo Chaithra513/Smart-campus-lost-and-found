@@ -1,0 +1,1067 @@
+/* =====================================================
+   SMART CAMPUS LOST & FOUND
+   Student Friendly + Glassmorphism UI
+   ===================================================== */
+
+/* ---------- 1. DESIGN TOKENS ---------- */
+
+:root {
+    --primary: #5b5fef;
+    --primary-dark: #4549c9;
+    --secondary: #8b5cf6;
+
+    --lost: #ef476f;
+    --lost-light: #ffe4ec;
+
+    --found: #06a77d;
+    --found-light: #dcf8ef;
+
+    --resolved: #64748b;
+    --resolved-light: #eef2f7;
+
+    --text: #263238;
+    --muted: #667085;
+
+    --white: rgba(255, 255, 255, 0.75);
+    --white-solid: #ffffff;
+
+    --border: rgba(255, 255, 255, 0.55);
+
+    --shadow:
+        0 15px 40px rgba(79, 70, 229, 0.12);
+
+    --radius: 20px;
+
+    --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+    --font-body: "Inter", "Segoe UI", sans-serif;
+}
+
+
+/* ---------- 2. RESET ---------- */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family: var(--font-body);
+    color: var(--text);
+    line-height: 1.6;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(139, 92, 246, 0.22),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(59, 130, 246, 0.20),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 80% 85%,
+            rgba(6, 167, 125, 0.15),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #f8f7ff,
+            #eef7ff
+        );
+
+    background-attachment: fixed;
+}
+
+
+/* ---------- 3. TEXT ---------- */
+
+h1,
+h2 {
+    font-family: var(--font-display);
+    color: var(--text);
+    margin: 0 0 12px;
+}
+
+h1 {
+    letter-spacing: -1px;
+}
+
+p {
+    margin: 0 0 16px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.eyebrow {
+    display: inline-block;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    color: var(--primary);
+
+    background: rgba(91, 95, 239, 0.10);
+
+    padding: 6px 12px;
+    border-radius: 999px;
+
+    margin-bottom: 16px;
+}
+
+.brand-accent {
+    color: #a78bfa;
+}
+
+
+/* ---------- 4. NAVBAR ---------- */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    background: rgba(31, 41, 78, 0.82);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+    box-shadow:
+        0 8px 30px rgba(31, 41, 78, 0.18);
+}
+
+.navbar-inner {
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 16px 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.brand {
+    font-family: var(--font-display);
+
+    font-weight: 700;
+    font-size: 1.25rem;
+
+    color: white;
+
+    letter-spacing: -0.3px;
+}
+
+.brand .brand-accent {
+    color: #fbbf24;
+}
+
+.brand-pin {
+    margin-right: 5px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.82);
+
+    font-size: 0.93rem;
+    font-weight: 600;
+
+    padding: 9px 13px;
+
+    border-radius: 10px;
+
+    border-bottom: none;
+
+    transition: all 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: white;
+
+    background: rgba(255, 255, 255, 0.14);
+
+    transform: translateY(-1px);
+
+    border-bottom-color: transparent;
+}
+
+
+/* ---------- 5. MAIN ---------- */
+
+main {
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 65px 24px 80px;
+}
+
+
+/* ---------- 6. HERO ---------- */
+
+.hero {
+    display: flex;
+    justify-content: center;
+}
+
+.hero-card {
+    position: relative;
+
+    width: 100%;
+    max-width: 850px;
+
+    padding: 65px 50px;
+
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.60);
+
+    border: 1px solid var(--border);
+
+    border-radius: 28px;
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 25px 60px rgba(79, 70, 229, 0.13);
+
+    transform: none;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.hero-card:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+        0 30px 70px rgba(79, 70, 229, 0.18);
+}
+
+
+/* Decorative circle */
+
+.hero-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: -12px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #fbbf24,
+        #f59e0b
+    );
+
+    box-shadow:
+        0 5px 15px rgba(245, 158, 11, 0.35);
+}
+
+.hero h1 {
+    font-size: 3rem;
+
+    line-height: 1.15;
+
+    margin-bottom: 20px;
+}
+
+.hero-text {
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    color: var(--muted);
+
+    font-size: 1.08rem;
+}
+
+
+/* ---------- 7. HERO BUTTONS ---------- */
+
+.hero-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 16px;
+
+    margin-top: 32px;
+
+    flex-wrap: wrap;
+}
+
+
+/* ---------- 8. BUTTONS ---------- */
+
+.btn {
+    display: inline-block;
+
+    font-family: var(--font-body);
+
+    font-weight: 700;
+
+    font-size: 0.95rem;
+
+    padding: 13px 22px;
+
+    border-radius: 12px;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(79, 70, 229, 0.16);
+}
+
+.btn-lost {
+    color: var(--lost);
+
+    background: var(--lost-light);
+
+    border: 1px solid rgba(239, 71, 111, 0.15);
+}
+
+.btn-lost:hover {
+    background: #ffd4df;
+}
+
+.btn-found {
+    color: var(--found);
+
+    background: var(--found-light);
+
+    border: 1px solid rgba(6, 167, 125, 0.15);
+}
+
+.btn-found:hover {
+    background: #c8f2e5;
+}
+
+.btn-submit {
+    width: 100%;
+
+    margin-top: 8px;
+
+    padding: 15px 22px;
+
+    font-size: 1rem;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 8px 20px rgba(91, 95, 239, 0.22);
+}
+
+.btn-submit:hover {
+    box-shadow:
+        0 12px 28px rgba(91, 95, 239, 0.30);
+}
+
+
+/* ---------- 9. FORM ---------- */
+
+.form-section {
+    display: flex;
+    justify-content: center;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 700px;
+
+    padding: 42px;
+
+    background: rgba(255, 255, 255, 0.68);
+
+    border: 1px solid var(--border);
+
+    border-radius: 24px;
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow: var(--shadow);
+}
+
+.form-card h1 {
+    font-size: 1.9rem;
+}
+
+form {
+    margin-top: 20px;
+}
+
+.field {
+    margin-bottom: 20px;
+
+    flex: 1;
+}
+
+.field-row {
+    display: flex;
+
+    gap: 18px;
+}
+
+label {
+    display: block;
+
+    font-weight: 700;
+
+    font-size: 0.88rem;
+
+    color: var(--text);
+
+    margin-bottom: 7px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    font-family: var(--font-body);
+
+    font-size: 0.95rem;
+
+    color: var(--text);
+
+    background: rgba(255, 255, 255, 0.75);
+
+    border: 1px solid rgba(100, 116, 139, 0.20);
+
+    border-radius: 11px;
+
+    outline: none;
+
+    transition:
+        border 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+    background: white;
+
+    border-color: rgba(91, 95, 239, 0.35);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    background: white;
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 4px rgba(91, 95, 239, 0.10);
+}
+
+textarea {
+    resize: vertical;
+}
+
+
+/* ---------- 10. BROWSE PAGE ---------- */
+
+.browse-section {
+    max-width: 1000px;
+
+    margin: 0 auto;
+}
+
+.browse-section > .eyebrow {
+    display: block;
+
+    width: fit-content;
+}
+
+
+/* ---------- 11. SEARCH / FILTER ---------- */
+
+.filter-bar {
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+    margin: 24px 0 12px;
+
+    padding: 24px;
+
+    background: rgba(255, 255, 255, 0.65);
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow: var(--shadow);
+}
+
+.filter-bar .field {
+    min-width: 170px;
+
+    margin-bottom: 0;
+
+    flex: 1;
+}
+
+.filter-actions {
+    display: flex;
+
+    gap: 10px;
+}
+
+.filter-actions .btn {
+    padding: 12px 18px;
+}
+
+
+/* ---------- 12. ITEM GRID ---------- */
+
+.item-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(290px, 1fr)
+        );
+
+    gap: 25px;
+
+    margin-top: 28px;
+}
+
+
+/* ---------- 13. ITEM CARD ---------- */
+
+.item-card {
+    overflow: hidden;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: rgba(255, 255, 255, 0.68);
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    box-shadow:
+        0 12px 30px rgba(79, 70, 229, 0.08);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.item-card:hover {
+    transform: translateY(-7px);
+
+    border-color:
+        rgba(91, 95, 239, 0.25);
+
+    box-shadow:
+        0 20px 45px rgba(79, 70, 229, 0.15);
+}
+
+
+/* ---------- 14. ITEM IMAGE ---------- */
+
+.item-image {
+    width: 100%;
+
+    height: 200px;
+
+    object-fit: cover;
+
+    display: block;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff,
+            #ecfeff
+        );
+}
+
+.item-image-placeholder {
+    height: 200px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--muted);
+
+    font-size: 0.88rem;
+
+    font-weight: 600;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff,
+            #ecfeff
+        );
+}
+
+
+/* ---------- 15. ITEM BODY ---------- */
+
+.item-body {
+    padding: 22px;
+
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.item-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.item-header h2 {
+    font-size: 1.15rem;
+
+    margin: 0;
+}
+
+.item-description {
+    color: var(--muted);
+
+    font-size: 0.91rem;
+
+    margin: 11px 0 16px;
+}
+
+
+/* ---------- 16. TAGS ---------- */
+
+.tag-group {
+    display: flex;
+
+    gap: 6px;
+
+    flex-wrap: wrap;
+
+    flex-shrink: 0;
+}
+
+.tag {
+    flex-shrink: 0;
+
+    font-size: 0.68rem;
+
+    font-weight: 800;
+
+    letter-spacing: 0.05em;
+
+    text-transform: uppercase;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+}
+
+.tag-lost {
+    background: var(--lost-light);
+
+    color: var(--lost);
+}
+
+.tag-found {
+    background: var(--found-light);
+
+    color: var(--found);
+}
+
+.tag-resolved {
+    background: var(--resolved-light);
+
+    color: var(--resolved);
+}
+
+
+/* ---------- 17. ITEM META ---------- */
+
+.item-meta {
+    list-style: none;
+
+    margin: 0;
+
+    padding: 0;
+
+    font-size: 0.84rem;
+
+    color: var(--text);
+}
+
+.item-meta li {
+    margin-bottom: 6px;
+}
+
+.item-meta strong {
+    color: var(--primary);
+
+    font-weight: 700;
+}
+
+
+/* ---------- 18. ITEM ACTIONS ---------- */
+
+.item-actions {
+    display: flex;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+    margin-top: 18px;
+
+    padding-top: 15px;
+
+    border-top:
+        1px solid rgba(100, 116, 139, 0.13);
+}
+
+.btn-small {
+    display: inline-block;
+
+    font-family: var(--font-body);
+
+    font-weight: 700;
+
+    font-size: 0.78rem;
+
+    padding: 8px 12px;
+
+    border-radius: 9px;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+.btn-small:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 12px rgba(79, 70, 229, 0.10);
+}
+
+.btn-outline {
+    color: var(--primary);
+
+    background: rgba(91, 95, 239, 0.08);
+
+    border:
+        1px solid rgba(91, 95, 239, 0.12);
+}
+
+.btn-outline:hover {
+    background: rgba(91, 95, 239, 0.14);
+}
+
+.btn-danger {
+    color: var(--lost);
+
+    background: var(--lost-light);
+}
+
+.btn-danger:hover {
+    background: #ffd4df;
+}
+
+
+/* ---------- 19. RESOLVED ITEMS ---------- */
+
+.item-card.is-resolved {
+    opacity: 0.72;
+
+    border-color:
+        rgba(100, 116, 139, 0.15);
+}
+
+.item-card.is-resolved:hover {
+    opacity: 0.95;
+}
+
+.item-card.is-resolved .item-image {
+    filter: grayscale(30%);
+}
+
+
+/* ---------- 20. EDIT IMAGE PREVIEW ---------- */
+
+.current-image-preview {
+    width: 150px;
+
+    height: 150px;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 14px;
+
+    border:
+        1px solid rgba(91, 95, 239, 0.15);
+
+    box-shadow:
+        0 8px 20px rgba(79, 70, 229, 0.10);
+}
+
+
+/* ---------- 21. FLASH MESSAGE ---------- */
+
+.flash-box {
+    max-width: 1000px;
+
+    margin: 22px auto 0;
+
+    padding: 0 24px;
+}
+
+.flash-box p {
+    padding: 14px 18px;
+
+    margin: 0;
+
+    color: var(--found);
+
+    background: rgba(220, 248, 239, 0.85);
+
+    border:
+        1px solid rgba(6, 167, 125, 0.20);
+
+    border-radius: 12px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 8px 20px rgba(6, 167, 125, 0.08);
+}
+
+
+/* ---------- 22. PLACEHOLDER ---------- */
+
+.placeholder-card {
+    text-align: center;
+
+    padding: 40px;
+}
+
+
+/* ---------- 23. FOOTER ---------- */
+
+.site-footer {
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 0.84rem;
+
+    padding: 35px 24px;
+
+    background: rgba(255, 255, 255, 0.25);
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.5);
+}
+
+
+/* ---------- 24. MOBILE ---------- */
+
+@media (max-width: 700px) {
+
+    .navbar-inner {
+        flex-direction: column;
+
+        align-items: center;
+
+        padding: 14px 18px;
+    }
+
+    .nav-links {
+        width: 100%;
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+    }
+
+    main {
+        padding:
+            40px 16px 60px;
+    }
+
+    .hero-card {
+        padding:
+            45px 24px;
+
+        border-radius: 22px;
+    }
+
+    .hero h1 {
+        font-size: 2.15rem;
+    }
+
+    .hero-text {
+        font-size: 0.98rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+    }
+
+    .field-row {
+        flex-direction: column;
+
+        gap: 0;
+    }
+
+    .form-card {
+        padding: 30px 22px;
+
+        border-radius: 20px;
+    }
+
+    .filter-bar {
+        padding: 18px;
+
+        align-items: stretch;
+    }
+
+    .filter-bar .field {
+        min-width: 100%;
+    }
+
+    .filter-actions {
+        width: 100%;
+    }
+
+    .filter-actions .btn {
+        flex: 1;
+    }
+
+    .item-grid {
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+}
+
+
+/* ---------- 25. SMALL ANIMATION ---------- */
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+.hero-card,
+.form-card,
+.filter-bar,
+.item-card {
+    animation:
+        fadeUp 0.45s ease both;
+}

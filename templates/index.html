@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Smart Campus Lost & Found{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-card">
+        <span class="eyebrow">Campus notice board, digitized</span>
+        <h1>Smart Campus <span class="brand-accent">Lost &amp; Found</span></h1>
+        <p class="hero-text">
+            Lost something on campus? Found something that belongs to someone else? Report it here.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="{{ url_for('report', type='lost') }}" class="btn btn-lost">
+                🔍 I Lost Something
+            </a>
+            <a href="{{ url_for('report', type='found') }}" class="btn btn-found">
+                🎒 I Found Something
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

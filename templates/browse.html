@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Items | Smart Campus Lost & Found{% endblock %}
+
+{% block content %}
+
+<section class="browse-section">
+    <span class="eyebrow">All reports</span>
+    <h1>Browse Items</h1>
+    <p class="hero-text">Search, filter, and manage everything reported as lost or found on campus.</p>
+
+    <!--
+        Search / filter form.
+        method="GET" so the search terms show up in the URL
+        (e.g. /browse?keyword=wallet&status=found) — that means the page
+        can be bookmarked or shared, and the Browse link in the navbar
+        still works normally (it just loads /browse with no filters).
+    -->
+    <form method="GET" action="{{ url_for('browse') }}" class="filter-bar">
+        <div class="field">
+            <label for="keyword">Keyword</label>
+            <input type="text" id="keyword" name="keyword" placeholder="Item name or description"
+                   value="{{ keyword }}">
+        </div>
+
+        <div class="field">
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" placeholder="e.g. Library"
+                   value="{{ location }}">
+        </div>
+
+        <div class="field">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="" {% if not status_filter %}selected{% endif %}>All</option>
+                <option value="lost" {% if status_filter == 'lost' %}selected{% endif %}>Lost</option>
+                <option value="found" {% if status_filter == 'found' %}selected{% endif %}>Found</option>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-submit">Search</button>
+            {% if keyword or location or status_filter %}
+                <a href="{{ url_for('browse') }}" class="btn btn-outline">Clear</a>
+            {% endif %}
+        </div>
+    </form>
+
+    {% if items|length == 0 %}
+        <div class="form-card placeholder-card">
+            {% if keyword or location or status_filter %}
+                <p class="hero-text">No reports match your search.</p>
+                <a href="{{ url_for('browse') }}" class="btn btn-lost">Clear Filters</a>
+            {% else %}
+                <p class="hero-text">No items have been reported yet. Be the first!</p>
+                <a href="{{ url_for('report') }}" class="btn btn-lost">Report an Item</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="item-grid">
+            {% for item in items %}
+                <div class="item-card {% if item.is_resolved %}is-resolved{% endif %}">
+                    {% if item.image %}
+                        <img class="item-image"
+                             src="{{ url_for('static', filename='uploads/' + item.image) }}"
+                             alt="{{ item.item_name }}">
+                    {% else %}
+                        <div class="item-image item-image-placeholder">No image</div>
+                    {% endif %}
+
+                    <div class="item-body">
+                        <div class="item-header">
+                            <h2>{{ item.item_name }}</h2>
+                            <div class="tag-group">
+                                {% if item.status == 'lost' %}
+                                    <span class="tag tag-lost">Lost</span>
+                                {% else %}
+                                    <span class="tag tag-found">Found</span>
+                                {% endif %}
+                                {% if item.is_resolved %}
+                                    <span class="tag tag-resolved">Resolved</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <p class="item-description">{{ item.description }}</p>
+
+                        <ul class="item-meta">
+                            <li><strong>Location:</strong> {{ item.location }}</li>
+                            <li><strong>Date:</strong> {{ item.date }}</li>
+                            <li><strong>Contact:</strong> {{ item.contact }}</li>
+                        </ul>
+
+                        <div class="item-actions">
+                            <form method="POST" action="{{ url_for('resolve', item_id=item.id) }}">
+                                <button type="submit" class="btn-small btn-outline">
+                                    {% if item.is_resolved %}Mark Unresolved{% else %}Mark Resolved{% endif %}
+                                </button>
+                            </form>
+
+                            <a href="{{ url_for('edit', item_id=item.id) }}" class="btn-small btn-outline">Edit</a>
+
+                            <form method="POST" action="{{ url_for('delete', item_id=item.id) }}"
+                                  onsubmit="return confirm('Delete this report? This cannot be undone.');">
+                                <button type="submit" class="btn-small btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</section>
+
+{% endblock %}
